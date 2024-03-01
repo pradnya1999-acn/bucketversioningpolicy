@@ -7,12 +7,19 @@ provider "google" {
 variable "sa_key" {
   default =  ""
 }
-resource "google_storage_bucket" "example_bucket" {
-  name          = "your-bucket-name"
-  location      = "us-central1"
-  force_destroy = true
+resource "google_sql_database_instance" "main" {
+  name             = "example-instance-march"
+  database_version = "MYSQL_5_7"
+  region           = "us-central1"
+  project          = "your-project-id"
 
-  versioning {
-    enabled = true
+  settings {
+    tier = "db-f1-micro"
+
+    # Enable SSL
+    ip_configuration {
+      require_ssl = true
+    }
+
   }
 }
